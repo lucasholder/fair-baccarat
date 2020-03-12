@@ -1,6 +1,6 @@
 [package]
 name = "fair-baccarat"
-version = "0.1.0"
+version = "0.1.1-alpha.0"
 authors = ["Lucas Holder <lucasholderx@gmail.com>"]
 edition = "2018"
 description = "Deterministically plays games of baccarat using a server seed, client seed and nonce."
