@@ -90,7 +90,7 @@ impl fmt::Display for SimulationResult {
         let banker = pretty_print_steps(&BANKER, &self.steps);
         let player = pretty_print_steps(&PLAYER, &self.steps);
 
-        write!(f, "{}\n\n{}\n{}", self.outcome, banker, player)
+        write!(f, "{}\n\n{}\n{}", self.outcome, player, banker)
     }
 }
 
