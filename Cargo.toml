@@ -7,7 +7,8 @@ description = "Deterministically plays games of baccarat using a server seed, cl
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/lucasholder/fair-baccarat.git"
-categories = ["baccarat", "provably-fair"]
+keywords = ["provably-fair", "baccarat", "gambling"]
+categories = ["cryptography", "command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
