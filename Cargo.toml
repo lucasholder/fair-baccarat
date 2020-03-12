@@ -3,15 +3,21 @@ name = "fair_baccarat"
 version = "0.1.0"
 authors = ["Lucas Holder <lucasholderx@gmail.com>"]
 edition = "2018"
+description = "Deterministically plays games of baccarat using a server seed, client seed and nonce."
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 rust-crypto = "^0.2"
+clap = "^2.33"
 
 [dev-dependencies]
 rust-crypto = "^0.2"
 bencher = "0.1.5"
+
+[[bin]]
+name = "fair-baccarat"
+path = "src/main.rs"
 
 [[bench]]
 name = "benches"

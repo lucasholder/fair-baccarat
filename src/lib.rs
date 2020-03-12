@@ -25,6 +25,17 @@ enum Outcome {
     Tie,
 }
 
+impl fmt::Display for Outcome {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let s = match self {
+            Outcome::Banker => "Banker won",
+            Outcome::Player => "Player won",
+            Outcome::Tie => "It's a tie",
+        };
+        write!(f, "{}", s)
+    }
+}
+
 #[derive(Debug)]
 struct SimulationResultTotals {
     player: u32,
@@ -59,6 +70,29 @@ impl SimulationResult {
         }
     }
 }
+impl fmt::Display for SimulationResult {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fn pretty_print_steps(recipient: &BaccaratCardRecipient, steps: &Vec<Step>) -> String {
+            let step_str = steps
+                .iter()
+                .filter_map(|Step(r, c)| {
+                    if r == recipient {
+                        Some(c.to_string())
+                    } else {
+                        None
+                    }
+                })
+                .collect::<Vec<String>>()
+                .join(" - ");
+            let total = sum_cards(recipient, steps);
+            format!("{} ({}): {}", recipient, total, step_str)
+        }
+        let banker = pretty_print_steps(&BANKER, &self.steps);
+        let player = pretty_print_steps(&PLAYER, &self.steps);
+
+        write!(f, "{}\n\n{}\n{}", self.outcome, banker, player)
+    }
+}
 
 #[derive(Debug, PartialEq, Eq)]
 enum BaccaratCardRecipient {
@@ -74,24 +108,24 @@ impl fmt::Display for BaccaratCardRecipient {
     }
 }
 
-pub fn baccarat_add(left: u32, right: u32) -> u32 {
+fn baccarat_add(left: u32, right: u32) -> u32 {
     (left + right) % 10
 }
 
-fn sum_cards(for_recipient: BaccaratCardRecipient, steps: &Vec<Step>) -> u32 {
+fn sum_cards(for_recipient: &BaccaratCardRecipient, steps: &Vec<Step>) -> u32 {
     steps
         .iter()
-        .filter(|Step(recipient, _)| recipient == &for_recipient)
+        .filter(|Step(recipient, _)| recipient == for_recipient)
         .fold(0, |acc, Step(_, card)| {
             baccarat_add(acc, card.to_baccarat_value() as u32)
         })
 }
 
 fn sum_cards_player(steps: &Vec<Step>) -> u32 {
-    sum_cards(PLAYER, &steps)
+    sum_cards(&PLAYER, &steps)
 }
 fn sum_cards_banker(steps: &Vec<Step>) -> u32 {
-    sum_cards(BANKER, &steps)
+    sum_cards(&BANKER, &steps)
 }
 
 /// Simulates a game of baccarat.
@@ -181,41 +215,6 @@ pub fn simulate(client_seed: &str, server_seed: &str, nonce: u64) -> SimulationR
 
     SimulationResult::from_steps(steps)
 }
-
-/*
-
-pub struct Config {
-    pub query: String,
-    pub filename: String,
-    case_sensitive: bool,
-}
-
-impl Config {
-    pub fn new(mut args: std::env::Args) -> Result<Config, &'static str> {
-        // skip filename
-        args.next();
-
-        let query = match args.next() {
-            Some(arg) => arg,
-            None => return Err("Didn't get a query string"),
-        };
-
-        let filename = match args.next() {
-            Some(arg) => arg,
-            None => return Err("Didn't get a filename"),
-        };
-
-        let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
-
-        Ok(Config {
-            query,
-            filename,
-            case_sensitive,
-        })
-    }
-}
-
-*/
 
 #[cfg(test)]
 mod test {
