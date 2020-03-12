@@ -48,7 +48,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "fair_baccarat"
+name = "fair-baccarat"
 version = "0.1.0"
 dependencies = [
  "bencher",
