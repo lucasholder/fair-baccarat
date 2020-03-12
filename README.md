@@ -7,8 +7,17 @@ CLI tool and library that verifies provably fair bets for baccarat game. Compati
 
 ## Install
 
+On Mac or Linux:
+
 ```bash
-cargo install fair_baccarat
+curl -sL
+https://raw.githubusercontent.com/lucasholder/fair-baccarat/master/install.sh | sh
+```
+
+If you have Rust:
+
+```bash
+cargo install fair-baccarat
 ```
 
 ## Usage
@@ -33,3 +42,7 @@ Banker (7): ♥4 - ♦3
 
 As expected, we get the same result as on
 [Stake.com](https://stake.com/casino/games/baccarat?clientSeed=client%20seed&game=baccarat&modal=verify&nonce=2&serverSeed=server%20seed).
+
+## Rust API docs
+
+[fair_baccarat](https://docs.rs/fair-baccarat/)
