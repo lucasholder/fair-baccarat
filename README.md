@@ -10,8 +10,7 @@ CLI tool and library that verifies provably fair bets for baccarat game. Compati
 On Mac or Linux:
 
 ```bash
-curl -sL
-https://raw.githubusercontent.com/lucasholder/fair-baccarat/master/install.sh | sh
+curl -sL https://raw.githubusercontent.com/lucasholder/fair-baccarat/master/install.sh | sh
 ```
 
 If you have Rust:
