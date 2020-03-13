@@ -10,15 +10,42 @@ repository = "https://github.com/lucasholder/fair-baccarat.git"
 keywords = ["provably-fair", "baccarat", "gambling"]
 categories = ["cryptography", "command-line-utilities"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+# wasm
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+# wasm
+[features]
+default = ["console_error_panic_hook"]
 
 [dependencies]
 rust-crypto = "^0.2"
 clap = "^2.33"
 
+# wasm deps after this line
+wasm-bindgen-test = "0.2" # wasm
+# The `console_error_panic_hook` crate provides better debugging of panics by
+# logging them with `console.error`. This is great for development, but requires
+# all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
+# code size when deploying.
+console_error_panic_hook = { version = "0.1.1", optional = true }
+
+# `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
+# compared to the default allocator's ~10K. It is slower than the default
+# allocator, however.
+#
+# Unfortunately, `wee_alloc` requires nightly Rust when targeting wasm for now.
+wee_alloc = { version = "0.4.2", optional = true }
+
 [dev-dependencies]
 rust-crypto = "^0.2"
 bencher = "0.1.5"
+wasm-bindgen-test = "0.2"
+
+# wasm
+[profile.release]
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"
 
 [[bin]]
 name = "fair-baccarat"
@@ -28,3 +55,4 @@ path = "src/main.rs"
 name = "benches"
 path = "benches/main.rs"
 harness = false
+
