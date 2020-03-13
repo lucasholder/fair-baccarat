@@ -9,6 +9,7 @@ use std::error::Error; use std::fs;
 
 mod card;
 mod rng;
+// mod wasm;
 
 use crate::card::Card;
 use crate::rng::ProvablyFairRNG;

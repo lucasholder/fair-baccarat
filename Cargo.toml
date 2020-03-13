@@ -19,8 +19,9 @@ crate-type = ["cdylib", "rlib"]
 default = ["console_error_panic_hook"]
 
 [dependencies]
-rust-crypto = "^0.2"
 clap = "^2.33"
+hmac = "^0.7.1"
+sha2 = "^0.8.1"
 
 # wasm deps after this line
 wasm-bindgen-test = "0.2" # wasm
