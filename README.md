@@ -3,6 +3,7 @@
 CLI tool and library that verifies provably fair bets for baccarat game. Compatible with Stake.com [provably fair algorithm](https://stake.com/casino/games/baccarat?clientSeed=client%20seed&game=baccarat&modal=verify&nonce=2&serverSeed=server%20seed).
 
 [![Build Status](https://travis-ci.org/lucasholder/fair-baccarat.svg?branch=master)](https://travis-ci.org/lucasholder/fair-baccarat)
+[![Build Status Appveyor](https://ci.appveyor.com/api/projects/status/github/lucasholder/fair-baccarat)](https://ci.appveyor.com/project/lucasholder/fair-baccarat)
 [![crates.io](https://meritbadge.herokuapp.com/fair-baccarat)](https://crates.io/crates/fair-baccarat)
 
 ## Install
