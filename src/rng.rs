@@ -1,7 +1,11 @@
-use crypto::hmac::Hmac;
-use crypto::mac::Mac;
-use crypto::mac::MacResult;
-use crypto::sha2::Sha256;
+use hmac::{Hmac, Mac};
+use sha2::Sha256;
+
+use hmac::crypto_mac::generic_array::typenum::*;
+use hmac::crypto_mac::generic_array::GenericArray;
+
+// Create alias for HMAC-SHA256
+type HmacSha256 = Hmac<Sha256>;
 
 pub struct ProvablyFairRNG {
     client_seed: String,
@@ -9,7 +13,7 @@ pub struct ProvablyFairRNG {
     nonce: u64,
     current_round: u64,
     current_round_cursor: usize,
-    current_round_mac: Option<MacResult>,
+    current_round_mac: Option<GenericArray<u8, U32>>,
 }
 
 impl ProvablyFairRNG {
@@ -26,11 +30,15 @@ impl ProvablyFairRNG {
     }
 
     fn update_current_round_buffer(&mut self) {
-        let mut hmac = Hmac::new(Sha256::new(), self.server_seed.as_bytes());
-        let string = format!("{}:{}:{}", self.client_seed, self.nonce, self.current_round);
-        hmac.input(string.as_bytes());
-        let mac = hmac.result();
-        self.current_round_mac = Some(mac);
+        // Create HMAC-SHA256 instance which implements `Mac` trait
+        let key = self.server_seed.as_bytes();
+        let input = format!("{}:{}:{}", self.client_seed, self.nonce, self.current_round);
+
+        let mut mac =
+            HmacSha256::new_varkey(key).expect("HMAC can take key of any size, never errors here");
+        mac.input(input.as_bytes());
+        let result = mac.result();
+        self.current_round_mac = Some(result.code());
     }
 }
 
@@ -48,7 +56,7 @@ impl std::iter::Iterator for ProvablyFairRNG {
             Some(v) => v,
         };
 
-        let buf = mac.code();
+        let buf = mac;
         let result = buf[self.current_round_cursor];
         if self.current_round_cursor == 31 {
             self.current_round_cursor = 0;
