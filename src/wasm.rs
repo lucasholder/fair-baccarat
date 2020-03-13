@@ -6,6 +6,7 @@ use wasm_bindgen::prelude::*;
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
+/*
 #[wasm_bindgen]
 extern "C" {
     fn alert(s: &str);
@@ -14,4 +15,10 @@ extern "C" {
 #[wasm_bindgen]
 pub fn greet() {
     alert("Hello, hello-wasm!");
+}
+*/
+
+#[wasm_bindgen]
+pub fn simulate(client_seed: &str, server_seed: &str, nonce: u64) -> String {
+    crate::simulate(client_seed, server_seed, nonce).to_string()
 }
