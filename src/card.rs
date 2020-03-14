@@ -1,6 +1,6 @@
 use std::fmt;
 
-use crate::rng::ProvablyFairRNGFloat;
+use crate::rng::ProvablyFairRNG;
 use CardRank::*;
 use CardSuite::*;
 
@@ -96,7 +96,7 @@ impl fmt::Display for Card {
 // draw random card from an inifinite deck
 impl Card {
     // deterministically returns a random card using rng
-    pub fn random(rng: &mut ProvablyFairRNGFloat) -> Card {
+    pub fn random(rng: &mut ProvablyFairRNG<f64>) -> Card {
         let val = rng.next().unwrap();
         let idx = (val * 52.) as usize;
         Card::at_index(idx)

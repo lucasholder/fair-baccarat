@@ -12,8 +12,7 @@ mod rng;
 mod wasm;
 
 use crate::card::Card;
-use crate::rng::ProvablyFairRNG;
-use crate::rng::ProvablyFairRNGFloat;
+pub use crate::rng::ProvablyFairRNG;
 
 use std::cmp::Ordering;
 use std::fmt;
@@ -147,7 +146,7 @@ fn sum_cards_banker(steps: &Vec<Step>) -> u32 {
 /// ```
 ///
 pub fn simulate(client_seed: &str, server_seed: &str, nonce: u64) -> SimulationResult {
-    let mut rng = ProvablyFairRNGFloat::new(ProvablyFairRNG::new(client_seed, server_seed, nonce));
+    let mut rng: ProvablyFairRNG<f64> = ProvablyFairRNG::new(client_seed, server_seed, nonce);
 
     // keep track of drawn cards
     let mut steps: Vec<Step> = vec![];
